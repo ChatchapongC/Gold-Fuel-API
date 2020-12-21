@@ -1,0 +1,6 @@
+OPENAPI_AUTOGEN_DIR = 'autogen'
+DB_HOST = 'iot.cpe.ku.ac.th'
+DB_USER = 'b6010546877'
+DB_PASSWD = 'chatchapong.c@ku.th'
+DB_NAME = 'b6010546877'
+

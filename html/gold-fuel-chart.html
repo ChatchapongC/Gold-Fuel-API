@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Gold Prices vs Fuel Prices - Historical Relationship</title>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<body>
+  <div id="chart" style="width:100%;height:75vh;"></div>
+  <script>
+    async function createChart() {
+      var resp = await fetch('http://localhost:3000/graphql', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          query: 
+          `
+            {
+              goldsAverage{
+                month 
+                price
+              }
+              f1:fuelsMonthlyAverage(fuelId:2){
+                month
+                price
+                fuel
+              }
+              f2:fuelsMonthlyAverage(fuelId:3){
+                month
+                price
+                fuel
+              }
+              f3:fuelsMonthlyAverage(fuelId:4){
+                month
+                price
+                fuel
+              }
+              f4:fuelsMonthlyAverage(fuelId:5){
+                month
+                price
+                fuel
+              }
+              f5:fuelsMonthlyAverage(fuelId:6){
+                month
+                price
+                fuel
+              }
+              f6:fuelsMonthlyAverage(fuelId:7){
+                month
+                price
+                fuel
+              }
+              f7:fuelsMonthlyAverage(fuelId:8){
+                month
+                price
+                fuel
+              }  
+              
+            }
+            
+          `
+        })
+      });
+
+      var json = await resp.json();
+      var table = json.data;
+
+      
+      var data = [{
+        x: table.goldsAverage.map(row => row.month),
+        y: table.goldsAverage.map(row => row.price),
+        type: 'line',
+        name: 'Gold',
+      },
+      {
+        x: table.f1.map(row => row.month),
+        y: table.f1.map(row => row.price),
+        type: 'line',
+        name: 'Diesel',
+        yaxis: 'y2'
+      },
+      {
+        x: table.f2.map(row => row.month),
+        y: table.f2.map(row => row.price),
+        type: 'line',
+        name: 'DieselB7',
+        yaxis: 'y2'
+      },
+      {
+        x: table.f3.map(row => row.month),
+        y: table.f3.map(row => row.price),
+        type: 'line',
+        name: 'DieselB20',
+        yaxis: 'y2'
+      },
+      {
+        x: table.f4.map(row => row.month),
+        y: table.f4.map(row => row.price),
+        type: 'line',
+        name: 'E85',
+        yaxis: 'y2'
+      },
+      {
+        x: table.f5.map(row => row.month),
+        y: table.f5.map(row => row.price),
+        type: 'line',
+        name: 'E20',
+        yaxis: 'y2'
+      },
+      {
+        x: table.f6.map(row => row.month),
+        y: table.f6.map(row => row.price),
+        type: 'line',
+        name: 'Gasohol91',
+        yaxis: 'y2'
+      },
+      {
+        x: table.f7.map(row => row.month),
+        y: table.f7.map(row => row.price),
+        type: 'line',
+        name: 'Gasohol95',
+        yaxis: 'y2'
+      },
+      ];
+      
+      console.log(data);
+      var layout = {
+        title: 'Gold Prices vs Fuel Prices - Historical Relationship in 2020',
+        xaxis: {
+          title: 'Month'
+        },
+        yaxis: {
+          title: 'Gold Price',
+          autorange: 'true',
+        },
+        yaxis2: {
+          title: 'Fuel Price',
+          autorange: 'true',
+          overlaying: 'y',
+          side: 'right'
+        }
+      };
+      var config = { responsive: true };
+      Plotly.newPlot("chart", data, layout, config);
+
+      
+    }
+   
+    createChart();
+    
+    
+  
+  </script>
+</body>
+</html>

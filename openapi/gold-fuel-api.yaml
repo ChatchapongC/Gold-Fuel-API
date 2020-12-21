@@ -1,0 +1,292 @@
+openapi: 3.0.0
+info:
+  title: Gold And Fuel Price Histrory in 2020
+  description:
+    This API provides historical of Gold and Fuel price in Thailand.
+    The data is since January till November in 2020.
+  version: 1.0.0
+servers:
+  - url: /gold-fuel
+paths:
+  /golds:
+    get:
+      summary: Returns a history of gold price.
+      operationId: controller.get_gold_price
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Gold'
+
+  /golds/month/{monthId}:
+    parameters:
+      - name: monthId
+        in: path
+        required: true
+        schema:
+          type : integer
+    get:
+      summary: Returns a list of gold price in given month.
+      operationId: controller.get_gold_price_in_month
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GoldInMonth'
+
+  /golds/average:
+    get:
+      summary: Returns a monthly average price.
+      operationId: controller.get_average_monthly_gold_price
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GoldAverage'
+
+  /golds/{monthId}/average/:
+    parameters:
+      - name: monthId
+        in: path
+        required: true
+        schema:
+          type : integer
+    get:
+      summary: Returns a average of gold price in given month.
+      operationId: controller.get_average_gold_price
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/GoldAverage'
+
+  /golds/highest:
+    get:
+      summary: Returns highest gold price.
+      operationId: controller.get_highest_gold_price
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Gold'
+  
+  /golds/lowest:
+    get:
+      summary: Returns lowest gold price.
+      operationId: controller.get_lowest_gold_price
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Gold'
+  
+  /fuels:
+    get:
+      summary: Returns a fuel details.
+      operationId: controller.get_fuel
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Fuel'
+
+  /fuels/price:
+    get:
+      summary: Returns history of fuels price.
+      operationId: controller.get_all_fuel_price
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FuelPrice'
+  
+  /fuels/price/{fuelId}:
+    parameters:
+      - name: fuelId
+        in: path
+        required: true
+        schema:
+          type : integer
+    get:
+      summary: Returns a list of fuel price and details in given fuel type.
+      operationId: controller.get_fuel_price
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/FuelPrice'
+  
+  /fuels/priceByMonth/{monthId}:
+    parameters:
+      - name: monthId
+        in: path
+        required: true
+        schema:
+          type : integer
+    get:
+      summary: Returns a list of fuels price in specific month.
+      operationId: controller.get_fuel_price_by_month
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FuelDetail'
+  
+  /fuels/monthlyAverage/{fuelId}:
+    parameters:
+      - name: fuelId
+        in: path
+        required: true
+        schema:
+          type : integer
+    get:
+      summary: Returns an average fuel price per month in given fuel type.
+      operationId: controller.get_monthly_average_fuel_price
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FuelMonthlyAverage'
+
+  /fuels/flowCount:
+    get:
+      summary: Returns an amount of flow of fuel prices.
+      operationId: controller.get_fuel_changing
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: number
+
+components:
+  schemas:
+    Gold:
+      type: object
+      properties:
+        month:
+          type: string
+        monthId:
+          type: integer
+        times:
+          type: integer
+        price:
+          type: number
+    
+    GoldInMonth:
+      type: object
+      properties:
+        month:
+          type: string
+        monthId:
+          type: integer
+        times:
+          type: integer
+        price:
+          type: number
+
+    GoldAverage:
+      type: object
+      properties:
+        month:
+          type: string
+        monthId:
+          type: integer
+        price:
+          type: number
+    
+    Fuel:
+      type: object
+      properties:
+        fuelId:
+          type: integer
+        fuel:
+          type: string
+    
+    FuelDetail:
+      type: object
+      properties:
+        fuelId:
+          type: integer
+        fuel:
+          type: string
+        monthId:
+          type: integer
+        month:
+          type: string
+        day:
+          type: integer
+        price:
+          type: number
+    
+    FuelMonthlyAverage:
+      type: object
+      properties:
+        fuel:
+          type: string
+        month:
+          type: string
+        monthId:
+          type: integer
+        price:
+          type: number
+    
+    FuelPrice:
+      type: object
+      properties:
+        fuel:
+          type: string
+        monthId:
+          type: integer
+        month:
+          type: string
+        day:
+          type: integer
+        price:
+          type: number
+
+        
+        
+    
+    
